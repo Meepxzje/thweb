@@ -81,17 +81,14 @@ class CartController extends Controller
             $lsp = LoaiSanPham::find($sp->IDLSP);
             $sp->TenLSP = $lsp ? $lsp->TenLSP : 'Không xác định';
         }
-        if (session()->has('user')) {
-            $userData = session('user');
-            foreach ($userData as $key => $value) {
-                if ($key == 'email') {
-                    $userEmail = $value;
-                    $canhan = Login::where('email', $userEmail)->get();
-                }
-            }
-        } else {
-            return redirect()->route('login');
+
+        $userData = session('user');
+        foreach ($userData as $key => $value) {
+
+            $userEmail = $value;
+            $canhan = Login::where('email', $userEmail)->get();
         }
+
         $spasus = SanPham::where('IDNSX', 'Asus')->get();
         $spacer = SanPham::where('IDNSX', 'Acer')->get();
         return view('cart.donhang', ['SanPham' => $sanpham, 'NhaSanXuat' => $nhasanxuat, 'LoaiSanPham' => $loaisanpham, 'SpAsus' => $spasus, 'SpAcer' => $spacer, 'Canhan' => $canhan]);

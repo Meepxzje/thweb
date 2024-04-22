@@ -1,5 +1,5 @@
 <?php
-// app/Http/Controllers/CartController.php
+
 
 namespace App\Http\Controllers;
 
@@ -29,19 +29,19 @@ class ProfileController extends Controller
         }
         $spasus = SanPham::where('IDNSX', 'Asus')->get();
         $spacer = SanPham::where('IDNSX', 'Acer')->get();
-        if (session()->has('user')) {
-            $userData = session('user');
-            foreach ($userData as $key => $value) {
-                if ($key == 'email') {
-                    $userEmail = $value;
-                    $canhan = Login::where('email', $userEmail)->get();
-                    $pm = PhieuMua::where('email', $userEmail)->get();
-                }
-            }
-        } else {
-            return redirect()->route('login');
+        $canhan = null;
+        $pm = null;
+
+        $userData = session('user');
+        foreach ($userData as $key => $value) {
+
+                $userEmail = $value;
+                $canhan = Login::where('email', $userEmail)->get();
+                $pm = PhieuMua::where('email', $userEmail)->get();
+
         }
-        return view('profile.canhan', ['SanPham' => $sanpham, 'NhaSanXuat' => $nhasanxuat, 'LoaiSanPham' => $loaisanpham, 'SpAsus' => $spasus, 'SpAcer' => $spacer, 'Canhan' => $canhan,'Phieumua'=>$pm]);
+
+        return view('profile.canhan', ['SanPham' => $sanpham, 'NhaSanXuat' => $nhasanxuat, 'LoaiSanPham' => $loaisanpham, 'SpAsus' => $spasus, 'SpAcer' => $spacer, 'Canhan' => $canhan, 'Phieumua' => $pm]);
     }
     public function update(Request $request)
     {
